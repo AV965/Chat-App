@@ -15,10 +15,6 @@ const ChatList = () => {
   const { chatId, changeChat } = useChatStore();
 
   useEffect(() => {
-    // const unSub = onSnapshot(doc(db, "userchats", currentUser.id), (doc) => {
-    //   // console.log("Current data: ", doc.data());
-    //   setChats( doc.data())
-    // });
     const unSub = onSnapshot(
       doc(db, "userchats", currentUser.id),
       async (res) => {
@@ -75,7 +71,7 @@ const ChatList = () => {
     <div className="chatList">
       <div className="search">
         <div className="searchBar">
-          <img src="./search.png" alt="" />
+          <img src="./search.png" alt="search User" />
           <input
             type="text"
             placeholder="Search"
@@ -85,7 +81,7 @@ const ChatList = () => {
 
         <img
           src={addMode ? "./minus.png" : "./plus.png"}
-          alt=""
+          alt="Add/Remove User"
           className="add"
           onClick={() => setAddMode((prev) => !prev)}
         />

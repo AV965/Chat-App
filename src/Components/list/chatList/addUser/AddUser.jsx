@@ -5,7 +5,6 @@ import {
   arrayUnion,
   collection,
   doc,
-  // getDoc,
   getDocs,
   query,
   serverTimestamp,
@@ -49,7 +48,7 @@ const AddUser = () => {
         createdAt: serverTimestamp(),
         messages: [],
       });
-      console.log(newChatRef.id);
+      // console.log(newChatRef.id);
 
       await updateDoc(doc(userChatsRef, user.id), {
         chats: arrayUnion({

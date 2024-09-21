@@ -5,7 +5,7 @@ import { useChatStore } from "../../lib/chatStore";
 import { useUserStore } from "../../lib/userStore";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 const Detail = () => {
-  const { chatId, user, isCurrentUserBlocked, isReceiverBlocked, changeBlock } =
+  const { chatId, user, isCurrentUserBlocked, isReceiverBlocked, changeBlock,resetChat } =
     useChatStore();
   const { currentUser } = useUserStore();
 
@@ -22,6 +22,11 @@ const Detail = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleLogout = () => {
+    auth.signOut();
+    resetChat()
   };
 
   return (
@@ -60,6 +65,10 @@ const Detail = () => {
               </div>
               <img src="./download.png" alt="Download" className="icon" />
             </div>
+
+
+
+            
           </div>
         </div>
 
@@ -77,7 +86,7 @@ const Detail = () => {
             ? "User Blocked"
             : "Block User"}
         </button>
-        <button className="logout" onClick={() => auth.signOut()}>
+        <button className="logout" onClick={handleLogout}>
           LogOut
         </button>
       </div>
