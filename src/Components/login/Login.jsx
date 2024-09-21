@@ -1,9 +1,19 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { toast } from "react-toastify";
-import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth, db } from "../../lib/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import upload from "../../lib/upload";
 
 const Login = () => {
@@ -31,15 +41,21 @@ const Login = () => {
     // console.log(username);
 
     // VALIDATE INPUTS
-    if (!username || !email || !password)
+    if (!username || !email || !password) {
+      setLoading(false);
       return toast.warn("Please enter inputs!");
-    if (!avatar.file) return toast.warn("Please upload an avatar!");
+    }
+    if (!avatar.file) {
+      setLoading(false);
+      return toast.warn("Please upload an avatar!");
+    }
 
     // VALIDATE UNIQUE USERNAME
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("username", "==", username));
     const querySnapshot = await getDocs(q);
     if (!querySnapshot.empty) {
+      setLoading(false);
       return toast.warn("Select another username");
     }
 
@@ -71,19 +87,17 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     const formData = new FormData(e.target);
-    const {email, password } = Object.fromEntries(formData);
+    const { email, password } = Object.fromEntries(formData);
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       console.log(error);
       toast.error(error.message);
-    }finally {
+    } finally {
       setLoading(false);
     }
   };
-
-
 
   return (
     <div className="login">
