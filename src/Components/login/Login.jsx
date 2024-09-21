@@ -75,7 +75,12 @@ const Login = () => {
       });
 
       toast.success("Account Created! You can Login Now");
+      e.target.reset(); // Resets all input fields in the form
+      setAvatar({ file: null, url: "" }); // Reset the avatar state
     } catch (error) {
+      e.target.reset(); // Resets all input fields in the form
+      setAvatar({ file: null, url: "" }); // Reset the avatar state
+      setLoading(false);
       console.log(error);
       toast.error(error.message);
     } finally {
